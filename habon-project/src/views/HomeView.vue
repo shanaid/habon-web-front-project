@@ -9,7 +9,7 @@
                 <p>여러 후보 중에서 당신의 이상형을 골라보세요. 매 라운드마다 두 후보 중 하나를 선택할 수 있습니다. 최종적으로 당신이 선택한 최고의 이상형이 결정됩니다!</p>
             </div>
             <div class="start-button">
-                <RouterLink to="/worldCup" class="button">시작하기</RouterLink>
+                <RouterLink to="/worldcup" class="button">시작하기</RouterLink>
             </div>
         </section>
     </div>

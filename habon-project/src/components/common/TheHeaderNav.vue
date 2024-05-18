@@ -6,9 +6,9 @@
                     <RouterLink to="/" class="home">Home</RouterLink>
                 </div>
                 <div class="center">
-                    <RouterLink to="/" class="worldCup">월드컵</RouterLink>
-                    <RouterLink to="/noticeBoard" class="board">게시판</RouterLink>
-                    <RouterLink to="/rank" class="ranking">랭킹</RouterLink>
+                    <RouterLink to="/worldcup" class="worldCup">월드컵</RouterLink>
+                    <!-- <RouterLink to="/noticeBoard" class="board">게시판</RouterLink>
+                    <RouterLink to="/rank" class="ranking">랭킹</RouterLink> -->
                 </div>
                 <div class="right">
                     <RouterLink to="/signin" class="sign-in" v-if="!user">로그인/회원가입</RouterLink>
