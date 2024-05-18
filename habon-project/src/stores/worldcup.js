@@ -19,9 +19,28 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     });
   };
 
+  const playWorldcupList = ref([]);
+
+  const playWorldcup = function(worldcupId, cnt){
+    axios
+    .get(`${REST_WORLDCUP_API}/${worldcupId}/${cnt}`)
+    .then((response)=>{
+      alert( cnt + "강 월드컵을 진행합니다!");
+      console.log(response.data);
+      playWorldcupList.value = response.data;
+    })
+    .catch((error) => {
+      alert(error.response.data);
+      console.log(error);
+      router.push({name:"Home"})
+    });
+  };
+
   return {
     worldcup,
     worldcupList,
     getWorldcupList,
+    playWorldcupList,
+    playWorldcup,
   };
 });
