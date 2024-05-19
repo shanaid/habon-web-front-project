@@ -36,11 +36,26 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     });
   };
 
+
+  const rankUpWorldcup = function(worldcupId,data){
+    axios
+    .post(`${REST_WORLDCUP_API}/${worldcupId}`, data)
+    .then(()=>{
+      
+    })
+    .catch((error) => {
+      alert(error.response.data);
+      console.log(error);
+    });
+
+  }
+
   return {
     worldcup,
     worldcupList,
     getWorldcupList,
     playWorldcupList,
     playWorldcup,
+    rankUpWorldcup,
   };
 });
