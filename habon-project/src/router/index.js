@@ -8,6 +8,9 @@ import WorldCupView from "@/views/WorldCupView.vue";
 import ChooseCnt from "@/components/worldcup/ChooseCnt.vue";
 import Play from "@/components/worldcup/Play.vue";
 import NoticeBoard from "@/components/NoticeBoard.vue";
+import BoardDetail from "@/components/board/BoardDetail.vue";
+import BoardCreate from "@/components/board/BoardCreate.vue";
+import BoardUpdate from "@/components/board/BoardUpdate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,7 +67,28 @@ const router = createRouter({
       path: "/noticeBoard/:id",
       name: "NoticeBoard",
       component: NoticeBoard
-    }
+    },
+    {
+      path: "/board",
+      name: "board",
+      children: [
+        {
+          path: ":id",
+          name: "BoardDetail",
+          component: BoardDetail,
+        },
+        {
+          path: "create/:worldcupId",
+          name: "BoardCreate",
+          component: BoardCreate,
+        },
+        {
+          path: "update",
+          name: "BoardUpdate",
+          component: BoardUpdate
+        },
+      ],
+    },
   ],
 });
 

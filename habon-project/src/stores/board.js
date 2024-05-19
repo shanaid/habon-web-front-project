@@ -9,8 +9,19 @@ export const useBoardStore = defineStore("board", () => {
   const board = ref({});
   const router = useRouter();
 
+  const getBoard = function (id) {
+    axios.get(`${REST_BOARD_API}/${id}`).then((response) => {
+      console.log("response", response);
+      board.value = response.data;
+    });
+  }
+
+
+
  
   return {
     board,
+    getBoard,
+
   };
 });
