@@ -16,8 +16,42 @@ export const useCommentStore = defineStore("comment", () => {
     });
   };
 
+  const addComment = function (boardId, data) {
+    axios
+      .post(`${REST_COMMENT_API}/${boardId}`, data)
+      .then((response) => {
+        if (response.data) {
+          alert("댓글 작성 성공");
+          console.log(response.data);
+          location.reload();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateComment = function (id, data) {
+    axios.put(`${REST_COMMENT_API}/${id}`, data).then((response) => {
+      if (response.data) {
+        alert("댓글 수정 성공");
+        location.reload();
+      }
+    });
+  };
+
+  const deleteComment = function (id) {
+    axios.delete(`${REST_COMMENT_API}/${id}`).then(() => {
+      alert("댓글 삭제 성공");
+      location.reload();
+    });
+  };
+
   return {
     comments,
     getComments,
+    addComment,
+    updateComment,
+    deleteComment,
   };
 });
