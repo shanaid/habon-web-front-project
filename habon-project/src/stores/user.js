@@ -116,11 +116,26 @@ export const useUserStore = defineStore("user", () => {
       });
   }
 
+
+  const randImg = ()=>{
+    axios.get(REST_USER_API + '/updateImg').then((response)=>{
+      sessionStorage.setItem("user", JSON.stringify(response.data));
+      location.reload();
+    }).catch((error) => {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ERROR',
+        text: '포인트를 확인해주세요',
+      });
+    });
+  }
+
   return {
     user,
     signInUser,
     signOutUser,
     signUpUser,
     updateUser,
+    randImg
   };
 });
