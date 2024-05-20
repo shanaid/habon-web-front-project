@@ -13,7 +13,11 @@
         <div class="right">
           <RouterLink to="/signin" class="sign-in" v-if="!user">로그인/회원가입</RouterLink>
           <span class="welcome" v-else>{{ user.nickname }}님 환영합니다!</span>
+          <RouterLink to="/user/profile" class="sign-in" v-if="user"> <span class="welcome"> 내 정보 </span> </RouterLink>
+          
           <button class="logout-button" v-if="user" @click="logout">로그아웃</button>
+          
+
         </div>
       </div>
     </nav>
