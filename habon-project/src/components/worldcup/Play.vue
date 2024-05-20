@@ -141,7 +141,7 @@
 
     const worldcupId = route.params.worldcupId;
     if (!worldcupId) {
-      console.error('worldcupId가 정의되지 않았습니다.');
+      // console.error('worldcupId가 정의되지 않았습니다.');
       return;
     }
     console.log(`Worldcup ID: ${worldcupId}`);

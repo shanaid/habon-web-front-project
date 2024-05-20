@@ -5,7 +5,7 @@
             <div class="board-modify">
                 <div class="board-item">
                     <label>제목:</label>
-                    <input type="text" v-model="board.title" placeholder="제목을 입력하세요">
+                    <input type="text" v-model="store.board.title" placeholder="제목을 입력하세요">
                 </div>
                 <div class="board-item">
                     <label>작성자:</label>
@@ -13,7 +13,7 @@
                 </div>
                 <div class="board-item-content">
                     <label>내용:</label>
-                    <textarea v-model="board.content" placeholder="내용을 입력하세요"></textarea>
+                    <textarea v-model="store.board.content" placeholder="내용을 입력하세요"></textarea>
                 </div>
                 <button @click="Submit">수정</button>
             </div>
@@ -32,14 +32,9 @@ const router = useRouter();
 
 const user = JSON.parse(sessionStorage.getItem('user'));
 
-const board = ref({
-    title: '',
-    writer: user.nickname,
-    content: '',
-});
 
 const Submit = () => {
-    store.modifyBoard(router.currentRoute.value.params.id, board.value);
+    store.modifyBoard(router.currentRoute.value.params.id);
 }
 
 </script>

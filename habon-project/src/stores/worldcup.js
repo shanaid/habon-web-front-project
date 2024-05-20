@@ -2,6 +2,7 @@ import { ref } from "vue";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const REST_WORLDCUP_API = "http://localhost:8080/api-Worldcup/worldcup";
 
@@ -25,9 +26,21 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     axios
     .get(`${REST_WORLDCUP_API}/${worldcupId}/${cnt}`)
     .then((response)=>{
-      alert( cnt + "강 월드컵을 진행합니다!");
-      console.log(response.data);
+      
+      // alert( cnt + "강 월드컵을 진행합니다!");
+      // console.log(response.data);
+
       playWorldcupList.value = response.data;
+
+  
+    Swal.fire({
+      icon: 'info',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+      title: cnt+ '강 월드컵을 진행합니다!'
+
+    });
+   
+
+
     })
     .catch((error) => {
       alert(error.response.data);
