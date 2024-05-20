@@ -2,6 +2,7 @@ import { ref } from "vue";
 import axios from "axios";
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const REST_USER_API = "http://localhost:8080/api-user/user";
 
@@ -14,13 +15,22 @@ export const useUserStore = defineStore("user", () => {
       .post(REST_USER_API + "/login", loginUser)
       .then((response) => {
         if (response.data) {
-          alert("로그인 성공");
-          console.log(response.data);
-          sessionStorage.setItem("user", JSON.stringify(response.data));
-          user.value = response.data;
-          router.push({ name: "Home" }).then(() => {
-            location.reload();
-          });
+
+          Swal.fire({
+            icon: 'success',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+            title: '로그인 성공',
+            text: '즐겁게 놀다가세요!',
+          }).then(() => {
+            sessionStorage.setItem("user", JSON.stringify(response.data));
+            user.value = response.data;
+            console.log(user.value);
+            router.push({ name: "Home" }).then(() => {
+              location.reload().then(() => {
+                console.log(user.value);
+              })
+            });
+          })
+
         }
       })
       .catch((error) => {
@@ -34,11 +44,16 @@ export const useUserStore = defineStore("user", () => {
       .delete(REST_USER_API + "/logout")
       .then((response) => {
         if (response.data) {
-          alert("로그아웃 성공");
           sessionStorage.removeItem("user");
           user.value = {};
-          router.push({ name: "Home" }).then(() => {
-            location.reload();
+          Swal.fire({
+            title: '로그아웃되었습니다',
+            icon: 'info',
+            confirmButtonText: '확인'
+          }).then(() => {
+            router.push({ name: "Home" }).then(() => {
+              location.reload();
+            });
           });
         }
       })
@@ -65,11 +80,36 @@ export const useUserStore = defineStore("user", () => {
       });
   };
 
+  const updateUser = function (data) {
+    axios
+      .put(REST_USER_API + '/update', data)
+      .then(() => {
+        sessionStorage.removeItem("user");
+        user.value = {};
+        Swal.fire({
+          icon: 'info',
+          title: '변경 완료',
+          text: '다시 로그인해주세요!',
+        }).then(() => {
+          router.push({ name: "Home" }).then(() => {
+            location.reload();
+          });
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'warning',
+          title: 'ERROR',
+          text: '그렇게 변경할 수 없습니다.',
+        });
+      });
+  }
 
   return {
     user,
     signInUser,
     signOutUser,
     signUpUser,
+    updateUser,
   };
 });

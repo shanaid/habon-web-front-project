@@ -22,7 +22,7 @@
           우승: {{ store.playWorldcupList[0].name }}
         </div>
 
-        <RouterLink :to="'noticeBoard/' + route.params.cnt">
+        <RouterLink :to="'/noticeBoard/' + route.params.id">
                 <div class="board-box">해당 월드컵 게시판으로 ! </div>
         </RouterLink>
 
