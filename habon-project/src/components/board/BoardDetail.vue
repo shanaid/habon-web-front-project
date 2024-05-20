@@ -8,6 +8,9 @@
       <button class="delete-button" @click="deleteBoard" v-if="loginUser && store.board.userId === loginUser.id">
         삭제
       </button>
+      <button class="like-button" @click="toggleLike" v-if="loginUser">
+        {{ isLiked ? '좋아요 취소' : '좋아요' }} ({{ store.board.likeCount }})
+      </button>
     </div>
     <div class="board-content">
       <div class="board-header">
@@ -30,7 +33,7 @@
         <p>{{ store.board.content }}</p>
       </div>
     </div>
-    <hr>
+    <hr />
     <CommentView />
   </div>
 </template>
@@ -38,20 +41,43 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { useBoardStore } from '@/stores/board';
-import { onMounted } from 'vue';
+import { useLikeStore } from '@/stores/like';
+import { onMounted, ref } from 'vue';
 import CommentView from '../comment-reply/CommentView.vue';
 
 const route = useRoute();
 const store = useBoardStore();
+const likeStore = useLikeStore();
 
 const loginUser = JSON.parse(sessionStorage.getItem('user'));
+const isLiked = ref(false);
 
-const deleteBoard = () => {
-  store.deleteBoard(route.params.id);
-}
+const checkLikeStatus = async () => {
+  if (!loginUser) return;
+  await likeStore.likeCheck('board', route.params.id);
+  isLiked.value = likeStore.islike;
+};
 
-onMounted(() => {
-  store.getBoard(route.params.id);
+const toggleLike = async () => {
+  if (!loginUser) {
+    alert('로그인이 필요합니다.');
+    return;
+  }
+
+  isLiked.value = !isLiked.value; // 좋아요 상태를 즉시 반영
+  await likeStore.likeclick('board', route.params.id);
+  await store.getBoard(route.params.id); // 게시글 데이터를 다시 불러와 좋아요 수 업데이트
+};
+
+const deleteBoard = async () => {
+  await store.deleteBoard(route.params.id);
+  // 게시글 삭제 후 다른 페이지로 이동하도록 설정
+  // 예: router.push('/board');
+};
+
+onMounted(async () => {
+  await store.getBoard(route.params.id);
+  await checkLikeStatus();
 });
 </script>
 
@@ -60,13 +86,16 @@ onMounted(() => {
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   font-size: 2.5em;
   margin-bottom: 20px;
   color: #333;
+  text-align: center;
 }
 
 .button-container {
@@ -76,7 +105,8 @@ h1 {
 }
 
 .update-button,
-.delete-button {
+.delete-button,
+.like-button {
   padding: 10px 20px;
   margin-left: 10px;
   border: none;
@@ -106,13 +136,22 @@ h1 {
   transform: scale(1.05);
 }
 
+.like-button {
+  background-color: #ff9800;
+  color: white;
+}
+
+.like-button:hover {
+  background-color: #e68900;
+  transform: scale(1.05);
+}
+
 .board-content {
   text-align: left;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
   padding: 20px;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -130,19 +169,14 @@ h1 {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-}
-
-.board-item-writer,
-.board-item-regist-date,
-.board-item-view-cnt {
   font-size: 0.9em;
   color: #666;
 }
 
 .board-item-content p {
-  border: 1px solid #ddd;
   padding: 15px;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
