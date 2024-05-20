@@ -33,10 +33,12 @@
   <script setup>
   import { ref, onMounted, computed } from 'vue';
   import { useReplyStore } from '@/stores/reply';
-  
+import { useRoute } from 'vue-router';  
   const props = defineProps({
     commentId: Number
   });
+
+  const route = useRoute();
   
   const replyStore = useReplyStore();
   const user = ref(JSON.parse(sessionStorage.getItem('user')));
@@ -67,7 +69,7 @@
       writer: user.value.nickname,
       commentId: props.commentId,
     };
-    replyStore.addReply(props.commentId, newReply);
+    replyStore.addReply(route.params.id, props.commentId, newReply);
     newReplyContent.value = '';
     showReplyInput.value = false;
   };
