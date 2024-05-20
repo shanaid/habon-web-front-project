@@ -67,11 +67,22 @@ export const useUserStore = defineStore("user", () => {
       .post(REST_USER_API + "/regist", registerUser)
       .then((response) => {
         if (response.data) {
-          alert("회원가입 성공");
-          console.log(response.data);
-          router.push({ name: "Home" }).then(() => {
-            location.reload();
-          });
+
+          Swal.fire({
+            title: '회원가입 성공!',
+            text: '즐거운 시간 보내세요 :)',
+            imageUrl: 'https://unsplash.it/400/200',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+          }).then(() => {
+            router.push({ name: "Home" }).then(() => {
+              location.reload();
+
+            });
+
+          })
+
         }
       })
       .catch((error) => {
