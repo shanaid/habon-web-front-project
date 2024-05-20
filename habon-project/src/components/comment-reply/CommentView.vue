@@ -10,14 +10,19 @@
         </div>
         <div v-if="editCommentId === comment.id">
           <input v-model="editedCommentContent" placeholder="수정할 내용을 입력하세요" />
-          <button class="save-button" @click="saveCommentEdit(comment.id)">저장</button>
-          <button class="cancel-button" @click="cancelEdit()">취소</button>
+          <div class="comment-actions">
+            <button class="save-button" @click="saveCommentEdit(comment.id)">저장</button>
+            <button class="cancel-button" @click="cancelEdit()">취소</button>
+          </div>
         </div>
         <div v-else>
           <div class="comment-content">{{ comment.content }}</div>
           <div class="comment-actions">
             <button class="edit-button" v-if="isLoggedIn && user.id === comment.userId" @click="editComment(comment.id, comment.content)">수정</button>
             <button class="delete-button" v-if="isLoggedIn && user.id === comment.userId" @click="deleteComment(comment.id)">삭제</button>
+            <button class="like-button" @click="toggleCommentLike(comment.id)">
+              {{ isCommentLiked[comment.id] ? '좋아요 취소' : '좋아요' }} ({{ comment.likeCount }})
+            </button>
           </div>
         </div>
         <div class="reply-toggle-container">
@@ -39,11 +44,13 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
 import { useCommentStore } from '@/stores/comments';
+import { useLikeStore } from '@/stores/like';
 import { useRoute } from 'vue-router';
 import ReplyView from './ReplyView.vue';
 
 const route = useRoute();
 const commentStore = useCommentStore();
+const likeStore = useLikeStore();
 const user = ref(JSON.parse(sessionStorage.getItem('user')));
 const isLoggedIn = ref(user.value !== null);
 
@@ -52,6 +59,7 @@ const editCommentId = ref(null);
 const editedCommentContent = ref('');
 
 const showReplies = reactive({});
+const isCommentLiked = reactive({}); // 댓글 좋아요 상태를 저장하는 객체
 
 const showLoginAlert = () => {
   alert("로그인이 필요합니다.");
@@ -106,8 +114,27 @@ const toggleReplies = (commentId) => {
   showReplies[commentId] = !showReplies[commentId];
 };
 
+const checkCommentLikeStatus = async (commentId) => {
+  if (!isLoggedIn.value) return;
+  await likeStore.likeCheck('comment', commentId);
+  isCommentLiked[commentId] = likeStore.islike;
+};
+
+const toggleCommentLike = async (commentId) => {
+  if (!isLoggedIn.value) {
+    showLoginAlert();
+    return;
+  }
+  await likeStore.likeclick('comment', commentId);
+  await commentStore.getComments(route.params.id); // 댓글 데이터를 다시 불러와 좋아요 수 업데이트
+  isCommentLiked[commentId] = likeStore.islike;
+};
+
 onMounted(async () => {
   await commentStore.getComments(route.params.id);
+  commentStore.comments.forEach(comment => {
+    checkCommentLikeStatus(comment.id);
+  });
 });
 </script>
 
@@ -168,7 +195,7 @@ h2 {
 .comment-actions,
 .reply-actions {
   display: flex;
-  gap: 10px;
+  gap: 5px;
 }
 
 .reply-toggle-container {
@@ -200,18 +227,21 @@ h2 {
 .delete-button,
 .add-comment-button,
 .add-reply-button,
-.toggle-reply-button {
-  padding: 10px 15px;
+.toggle-reply-button,
+.like-button {
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 0.9em;
 }
 
 .add-comment-button,
 .add-reply-button,
 .save-button,
-.edit-button {
+.edit-button,
+.like-button {
   background-color: #4caf50;
   color: white;
 }
@@ -219,7 +249,8 @@ h2 {
 .add-comment-button:hover,
 .add-reply-button:hover,
 .save-button:hover,
-.edit-button:hover {
+.edit-button:hover,
+.like-button:hover {
   background-color: #45a049;
   transform: scale(1.05);
 }

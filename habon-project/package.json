@@ -9,9 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mojs/core": "^1.7.1",
     "axios": "^1.6.8",
+    "gsap": "^3.12.5",
     "pinia": "^2.1.7",
-    "sweetalert2": "^11.11.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
