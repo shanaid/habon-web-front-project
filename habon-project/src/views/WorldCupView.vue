@@ -44,6 +44,7 @@ onMounted(() => {
 }
 
 .background {
+  
   background-image: url('src/assets/img/back1.jpg');
   background-position: center;
   background-size: cover;
@@ -54,6 +55,7 @@ onMounted(() => {
 }
 
 .container {
+  
   text-align: center;
   padding: 40px 20px;
   max-width: 900px;
@@ -108,11 +110,13 @@ p {
 }
 
 .board-link, .rank-link {
+  
   display: block;
   text-decoration: none;
 }
 
 .board-box, .rank-box {
+
   width: 160px;
   height: 50px;
   display: flex;
@@ -127,16 +131,19 @@ p {
 }
 
 .board-box {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #e0e0e0;
   color: #555;
 }
 
 .rank-box {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #c3d6e9;
   color: #004085;
 }
 
 .world-cup-box:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   transform: scale(1.05);
   background-color: #d0d0d0;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);

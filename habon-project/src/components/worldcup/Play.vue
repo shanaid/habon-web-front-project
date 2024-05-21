@@ -6,7 +6,7 @@
       <div class="choices-container">
         <div class="choice fir" @click="chooseFirst">
           <div class="choice-img">
-            <img :src="store.playWorldcupList[0].img" alt="Image 1">
+           <img :src="store.playWorldcupList[0].img" alt="Image 1">
           </div>
           <div class="choice-text">
             {{ store.playWorldcupList[0].subCategory }}: {{ store.playWorldcupList[0].name }}
@@ -22,16 +22,26 @@
           </div>
         </div>
       </div>
+      <div>
+        <button v-on:click="hint">힌트</button>
+        <p ></p>
+        {{ promptmsg }}
+
+      </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
+
+      <div v-if="store.point">
+       <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
+      </div>
+      
       <div class="winner-container">
       
-       <div>
-        <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
-      </div>
+
         <div class="winner">
           우승: {{ store.playWorldcupList[0].name }}
         </div>
+
         <RouterLink :to="'/noticeBoard/' + route.params.id">
           <div class="board-box">해당 월드컵 게시판으로 ! </div>
         </RouterLink>
@@ -43,9 +53,12 @@
       <div>리스트가 비어 있습니다.</div>
     </div>
   </div>
+
+
 </template>
 
 <script setup>
+import { OpenApiUtil } from "@/assets/js/OpenApiUtil";
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useWorldcupStore } from '@/stores/worldcup';
@@ -90,6 +103,8 @@ const updateGame = () => { //뭘 누를 때 마다
 };
 
 const chooseFirst = () => { //첫번 째 요소 선택시
+  promptmsg.value = '';
+
   if (store.playWorldcupList.length > 1) { //만약 게임을 즐길 리스트 사이즈가 1보다 크담면
     updatelist.value.push(store.playWorldcupList[0]); //헤당 요소를 update 요소에 넣고
     store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
@@ -107,6 +122,7 @@ const chooseFirst = () => { //첫번 째 요소 선택시
 };
 
 const chooseSecond = () => { // 똑같이 행동 
+  promptmsg.value = '';
   if (store.playWorldcupList.length > 1) {
     updatelist.value.push(store.playWorldcupList[1]);
     store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
@@ -138,6 +154,27 @@ onMounted(async () => {
   await store.playWorldcup(worldcupId);
   initializeRound();
 });
+
+const promptmsg = ref('');
+// PromiseResult
+const hint = ()=>{
+
+  promptmsg.value = OpenApiUtil.prompt(store.playWorldcupList[0].name+'와 '+store.playWorldcupList[1].name+'에 대해서 알려줘! ').then((res)=>{
+   
+    promptmsg.value = res;
+    
+  })
+  
+  console.log(promptmsg.value)
+
+  console.log(promptmsg.value.then((res)=>{
+    console.log(res)
+  }));
+
+}
+
+
+
 </script>
 
 <style scoped>
@@ -151,7 +188,6 @@ onMounted(async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 h1 {
   font-size: 2.5em;
   color: #333;
@@ -162,7 +198,6 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
- 
 }
 
 .choice {
@@ -171,24 +206,33 @@ h1 {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   transition: transform 0.3s, background-color 0.3s;
+  position: relative;
+}
+
+.choice * {
+  pointer-events: none; /* 하위 요소가 클릭 이벤트를 차단하도록 설정 */
 }
 
 .sec {
   background-color: #4169E1;
 }
 
-.fir{
+.fir {
   background-color: #8b0029;
 }
 
-.fir:hover {
+.fir:hover, .sec:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   transform: scale(1.05);
+}
+
+.fir:hover {
   background-color: #d6cabc;
 }
+
 .sec:hover {
-  transform: scale(1.05);
   background-color: white;
 }
 
@@ -224,13 +268,15 @@ h1 {
   background-color: #4caf50;
   color: white;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   text-decoration: none;
   display: inline-block;
   transition: background-color 0.3s, transform 0.3s;
+  position: relative;
 }
 
 .board-box:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #45a049;
   transform: scale(1.05);
 }
@@ -239,15 +285,16 @@ button {
   margin: 20px 0;
   padding: 10px 20px;
   font-size: 1.2em;
-  color: #fff;
-  background-color: #007bff;
+  color: #000000;
+  background-color: #9dff00;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #0056b3;
   transform: scale(1.05);
 }

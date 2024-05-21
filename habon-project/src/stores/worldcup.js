@@ -12,9 +12,14 @@ export const useWorldcupStore = defineStore("worldcup", () => {
   const router = useRouter();
   const elementsRank = ref([]);
 
+  const point = ref(false);
+
+
+
   const getWorldcupList = function () {
     axios.get(REST_WORLDCUP_API).then((response) => {
       if (response.data) {
+        point.value = true;
         console.log(response.data);
         worldcupList.value = response.data;
       }
@@ -77,6 +82,7 @@ export const useWorldcupStore = defineStore("worldcup", () => {
   }
   const user = ref({});
   const getPoint = ()=>{
+    point.value=false;
     axios
     .get(REST_WORLDCUP_API+'/point')
     .then((response)=>{
@@ -114,6 +120,7 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     rankUpWorldcup,
     elementsRank,
     getElementsRank,
-    getPoint
+    getPoint,
+    point
   };
 });
