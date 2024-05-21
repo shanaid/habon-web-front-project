@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import axios from 'axios';
+import './assets/stylee.css'; 
 
 axios.defaults.baseURL = 'http://localhost:8080'; 
 axios.defaults.withCredentials = true;

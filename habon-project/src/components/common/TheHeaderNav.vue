@@ -82,6 +82,7 @@ const user = ref(JSON.parse(sessionStorage.getItem('user')))
 .sign-in,
 .welcome,
 .logout-button {
+  
   margin-right: 20px;
   color: white;
   text-decoration: none;
@@ -98,6 +99,7 @@ const user = ref(JSON.parse(sessionStorage.getItem('user')))
 .logout-button:hover {
   color: #1e90ff;
   transform: scale(1.1);
+  cursor: url("../public/Chyojason.png"), auto;
 }
 
 .logout-button {

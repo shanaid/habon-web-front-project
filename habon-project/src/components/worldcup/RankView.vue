@@ -81,10 +81,10 @@
   }
   
   .rank-image {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: contain;
   }
   </style>
   

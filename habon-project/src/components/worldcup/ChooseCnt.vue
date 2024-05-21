@@ -29,6 +29,7 @@
   
   <style scoped>
   .container {
+    
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -60,6 +61,7 @@
   }
   
   .select-button {
+    cursor: url("../public/Chyojason.png"), auto;
     display: inline-block;
     padding: 10px 20px;
     font-size: 1.1em;
@@ -73,6 +75,7 @@
   }
   
   .select-button:hover {
+    cursor: url("../public/Chyojason.png"), auto;
     background-color: #45a049;
     transform: scale(1.05);
   }

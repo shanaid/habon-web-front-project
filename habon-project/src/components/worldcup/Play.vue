@@ -6,7 +6,13 @@
       <div class="choices-container">
         <div class="choice fir" @click="chooseFirst">
           <div class="choice-img">
+            <!-- <img :src="`store.playWorldcupList[0].img`" alt="Image 1"> -->
+
+            
             <img :src="store.playWorldcupList[0].img" alt="Image 1">
+
+
+
           </div>
           <div class="choice-text">
             {{ store.playWorldcupList[0].subCategory }}: {{ store.playWorldcupList[0].name }}
@@ -24,14 +30,18 @@
       </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
+
+      <div v-if="store.point">
+       <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
+      </div>
+      
       <div class="winner-container">
       
-       <div>
-        <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
-      </div>
+
         <div class="winner">
           우승: {{ store.playWorldcupList[0].name }}
         </div>
+
         <RouterLink :to="'/noticeBoard/' + route.params.id">
           <div class="board-box">해당 월드컵 게시판으로 ! </div>
         </RouterLink>
@@ -151,7 +161,6 @@ onMounted(async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 h1 {
   font-size: 2.5em;
   color: #333;
@@ -162,7 +171,6 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
- 
 }
 
 .choice {
@@ -171,24 +179,33 @@ h1 {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   transition: transform 0.3s, background-color 0.3s;
+  position: relative;
+}
+
+.choice * {
+  pointer-events: none; /* 하위 요소가 클릭 이벤트를 차단하도록 설정 */
 }
 
 .sec {
   background-color: #4169E1;
 }
 
-.fir{
+.fir {
   background-color: #8b0029;
 }
 
-.fir:hover {
+.fir:hover, .sec:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   transform: scale(1.05);
+}
+
+.fir:hover {
   background-color: #d6cabc;
 }
+
 .sec:hover {
-  transform: scale(1.05);
   background-color: white;
 }
 
@@ -224,13 +241,15 @@ h1 {
   background-color: #4caf50;
   color: white;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   text-decoration: none;
   display: inline-block;
   transition: background-color 0.3s, transform 0.3s;
+  position: relative;
 }
 
 .board-box:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #45a049;
   transform: scale(1.05);
 }
@@ -243,11 +262,12 @@ button {
   background-color: #007bff;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url("../public/hyojason.png"), auto;
   transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
+  cursor: url("../public/Chyojason.png"), auto;
   background-color: #0056b3;
   transform: scale(1.05);
 }
