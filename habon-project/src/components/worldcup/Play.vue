@@ -6,13 +6,7 @@
       <div class="choices-container">
         <div class="choice fir" @click="chooseFirst">
           <div class="choice-img">
-            <!-- <img :src="`store.playWorldcupList[0].img`" alt="Image 1"> -->
-
-            
-            <img :src="store.playWorldcupList[0].img" alt="Image 1">
-
-
-
+           <img :src="store.playWorldcupList[0].img" alt="Image 1">
           </div>
           <div class="choice-text">
             {{ store.playWorldcupList[0].subCategory }}: {{ store.playWorldcupList[0].name }}
@@ -27,6 +21,12 @@
             {{ store.playWorldcupList[1].subCategory }}: {{ store.playWorldcupList[1].name }}
           </div>
         </div>
+      </div>
+      <div>
+        <button v-on:click="hint">힌트</button>
+        <p ></p>
+        {{ promptmsg }}
+
       </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
@@ -54,10 +54,11 @@
     </div>
   </div>
 
-  <div>싸피!~!!</div>
+
 </template>
 
 <script setup>
+import { OpenApiUtil } from "@/assets/js/OpenApiUtil";
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useWorldcupStore } from '@/stores/worldcup';
@@ -102,6 +103,8 @@ const updateGame = () => { //뭘 누를 때 마다
 };
 
 const chooseFirst = () => { //첫번 째 요소 선택시
+  promptmsg.value = '';
+
   if (store.playWorldcupList.length > 1) { //만약 게임을 즐길 리스트 사이즈가 1보다 크담면
     updatelist.value.push(store.playWorldcupList[0]); //헤당 요소를 update 요소에 넣고
     store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
@@ -119,6 +122,7 @@ const chooseFirst = () => { //첫번 째 요소 선택시
 };
 
 const chooseSecond = () => { // 똑같이 행동 
+  promptmsg.value = '';
   if (store.playWorldcupList.length > 1) {
     updatelist.value.push(store.playWorldcupList[1]);
     store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
@@ -150,6 +154,27 @@ onMounted(async () => {
   await store.playWorldcup(worldcupId);
   initializeRound();
 });
+
+const promptmsg = ref('');
+// PromiseResult
+const hint = ()=>{
+
+  promptmsg.value = OpenApiUtil.prompt(store.playWorldcupList[0].name+'와 '+store.playWorldcupList[1].name+'에 대해서 알려줘! ').then((res)=>{
+   
+    promptmsg.value = res;
+    
+  })
+  
+  console.log(promptmsg.value)
+
+  console.log(promptmsg.value.then((res)=>{
+    console.log(res)
+  }));
+
+}
+
+
+
 </script>
 
 <style scoped>
@@ -260,8 +285,8 @@ button {
   margin: 20px 0;
   padding: 10px 20px;
   font-size: 1.2em;
-  color: #fff;
-  background-color: #007bff;
+  color: #000000;
+  background-color: #9dff00;
   border: none;
   border-radius: 5px;
   cursor: url("../public/hyojason.png"), auto;
