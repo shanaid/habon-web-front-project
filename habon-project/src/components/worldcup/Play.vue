@@ -24,16 +24,20 @@
       </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
-      <div>
+      <div class="winner-container">
+      
+       <div>
         <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
       </div>
-      <div class="winner">
-        우승: {{ store.playWorldcupList[0].name }}
-        <RankView />
+        <div class="winner">
+          우승: {{ store.playWorldcupList[0].name }}
+        </div>
+        <RouterLink :to="'/noticeBoard/' + route.params.id">
+          <div class="board-box">해당 월드컵 게시판으로 ! </div>
+        </RouterLink>
+
       </div>
-      <RouterLink :to="'/noticeBoard/' + route.params.id">
-        <div class="board-box">해당 월드컵 게시판으로 ! </div>
-      </RouterLink>
+      <RankView />
     </div>
     <div v-else>
       <div>리스트가 비어 있습니다.</div>
@@ -186,10 +190,18 @@ h1 {
   color: #333;
 }
 
+.winner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .winner {
-  font-size: 2em;
+  font-size: 3em;
   font-weight: bold;
   color: green;
+  margin-bottom: 10px;
 }
 
 .board-box {

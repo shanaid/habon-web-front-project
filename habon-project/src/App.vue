@@ -4,9 +4,30 @@ import TheHeaderNav from '@/components/common/TheHeaderNav.vue'
 </script>
 
 <template>
-  <TheHeaderNav />
+  <div id="app">
+    <TheHeaderNav />
+  </div>
 </template>
 
-<style scoped>
+<style>
+@font-face {
+  font-family: 'BMEuljiro10yearslater';
+  src: url('@/assets/fonts/BMEuljiro10yearslater.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'BMEuljiro10yearslater';
+  src: url('@/assets/fonts/BMEuljiro10yearslater.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'BMEuljiro10yearslater';
+  src: url('@/assets/fonts/BMEuljiro10yearslater.ttf') format('truetype');
+  font-weight: 700;
+}
 
+body {
+  font-family: 'BMEuljiro10yearslater', sans-serif !important;
+}
 </style>
+
