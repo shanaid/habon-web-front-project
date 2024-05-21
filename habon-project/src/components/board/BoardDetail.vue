@@ -9,7 +9,7 @@
         삭제
       </button>
       <button class="like-button" @click="toggleLike" v-if="loginUser">
-        {{ isLiked ? "🤍" : "❤️" }}
+        {{ isLiked ? "❤️" : "🤍" }}
       </button>
     </div>
     <div class="board-content">
@@ -20,6 +20,9 @@
         <div class="board-meta">
           <div class="board-item-writer">
             <span>작성자: {{ store.board.writer }}</span>
+            <span>
+              <img :src="userStore.userImg" alt="유저 이미지" class="user-img">
+            </span>
           </div>
           <div class="board-item-regist-date">
             <span>작성일: {{ store.board.registDate }}</span>
@@ -42,12 +45,14 @@
 import { useRoute } from 'vue-router';
 import { useBoardStore } from '@/stores/board';
 import { useLikeStore } from '@/stores/like';
+import { useUserStore } from '@/stores/user';
 import { onMounted, ref } from 'vue';
 import CommentView from '../comment-reply/CommentView.vue';
 
 const route = useRoute();
 const store = useBoardStore();
 const likeStore = useLikeStore();
+const userStore = useUserStore();
 
 const loginUser = JSON.parse(sessionStorage.getItem('user'));
 const isLiked = ref(false);
@@ -78,6 +83,7 @@ const deleteBoard = async () => {
 onMounted(async () => {
   await store.getBoard(route.params.id);
   await checkLikeStatus();
+  await userStore.getUserImg("board", route.params.id);
 });
 </script>
 
@@ -171,6 +177,19 @@ h1 {
   flex-wrap: wrap;
   font-size: 0.9em;
   color: #666;
+}
+
+.board-item-writer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .board-item-content p {

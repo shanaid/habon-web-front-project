@@ -7,6 +7,7 @@
         <div class="comment-header">
           <div class="comment-writer">{{ comment.writer }}</div>
           <div class="comment-regist-date">{{ comment.registDate }}</div>
+          <div class="comment-regist-date">좋아요:{{ comment.likeCount }}</div>
         </div>
         <div v-if="editCommentId === comment.id">
           <input v-model="editedCommentContent" placeholder="수정할 내용을 입력하세요" />
@@ -21,7 +22,7 @@
             <button class="edit-button" v-if="isLoggedIn && user.id === comment.userId" @click="editComment(comment.id, comment.content)">수정</button>
             <button class="delete-button" v-if="isLoggedIn && user.id === comment.userId" @click="deleteComment(comment.id)">삭제</button>
             <button class="like-button" @click="toggleCommentLike(comment.id)">
-              {{ isCommentLiked[comment.id] ? '좋아요 취소' : '좋아요' }} ({{ comment.likeCount }})
+              {{ isCommentLiked[comment.id] ? "❤️" : "🤍" }}
             </button>
           </div>
         </div>
