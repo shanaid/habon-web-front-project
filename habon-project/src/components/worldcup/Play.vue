@@ -4,7 +4,7 @@
       <h1>{{ currentRound }} <span v-if="currentRound !== '결승'">강 - {{ currentGame }}/{{ currentRound / 2 }}번째 게임</span></h1>
 
       <div class="choices-container">
-        <div class="choice" @click="chooseFirst">
+        <div class="choice fir" @click="chooseFirst">
           <div class="choice-img">
             <img :src="store.playWorldcupList[0].img" alt="Image 1">
           </div>
@@ -13,7 +13,7 @@
           </div>
         </div>
 
-        <div class="choice" @click="chooseSecond">
+        <div class="choice sec" @click="chooseSecond">
           <div class="choice-img">
             <img :src="store.playWorldcupList[1].img" alt="Image 2">
           </div>
@@ -139,6 +139,7 @@ onMounted(async () => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
 h1 {
   font-size: 2.5em;
   color: #333;
@@ -149,6 +150,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
+ 
 }
 
 .choice {
@@ -161,9 +163,21 @@ h1 {
   transition: transform 0.3s, background-color 0.3s;
 }
 
-.choice:hover {
+.sec {
+  background-color: #4169E1;
+}
+
+.fir{
+  background-color: #8b0029;
+}
+
+.fir:hover {
   transform: scale(1.05);
-  background-color: #e0f7fa;
+  background-color: #d6cabc;
+}
+.sec:hover {
+  transform: scale(1.05);
+  background-color: white;
 }
 
 .choice-img img {
