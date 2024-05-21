@@ -12,6 +12,7 @@ import NoticeBoard from "@/components/NoticeBoard.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
 import BoardCreate from "@/components/board/BoardCreate.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
+import RankView from "@/components/worldcup/RankView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,6 +68,11 @@ const router = createRouter({
           name: "Play",
           component: Play,
         },
+        {
+          path:"result/:id",
+          name:"Ranking",
+          component: RankView
+        }
       ]
     },
     {
