@@ -9,6 +9,7 @@ const REST_USER_API = "http://localhost:8080/api-user/user";
 export const useUserStore = defineStore("user", () => {
   const user = ref({});
   const router = useRouter();
+  const userImg = ref('');
 
   const signInUser = function (loginUser) {
     axios
@@ -130,12 +131,26 @@ export const useUserStore = defineStore("user", () => {
     });
   }
 
+  const getUserImg = function (type, id) {
+    axios
+      .get(REST_USER_API + "/" + type + "/" + id)
+      .then((response) => {
+        userImg.value = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
   return {
     user,
     signInUser,
     signOutUser,
     signUpUser,
     updateUser,
-    randImg
+    randImg,
+    getUserImg,
+    userImg
   };
 });
