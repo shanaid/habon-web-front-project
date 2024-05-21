@@ -24,6 +24,9 @@
       </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
+      <div>
+        <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
+      </div>
       <div class="winner">
         우승: {{ store.playWorldcupList[0].name }}
         <RankView />
@@ -54,6 +57,8 @@ const currentRound = ref(route.params.cnt); // 몇강인지 체크 -> 시작할�
 const currentGame = ref(1); // 현재 N번째 강에서 몇번째 게임인지 체크
 
 const totalGamesInCurrentRound = ref(0); //토탈 게임 라운드
+
+const pointClaimed = ref(false); // 포인트가 뽑혔는지 여부
 
 const initializeRound = () => {
   const length = store.playWorldcupList.length; // 현재 월드컵 수를 구해서
@@ -112,6 +117,11 @@ const chooseSecond = () => { // 똑같이 행동
       updateGame();
     }
   }
+};
+
+const randomPoint = () => {
+  store.getPoint();
+  pointClaimed.value = true; // 포인트 버튼을 클릭한 것으로 표시
 };
 
 onMounted(async () => {
@@ -197,5 +207,27 @@ h1 {
 .board-box:hover {
   background-color: #45a049;
   transform: scale(1.05);
+}
+
+button {
+  margin: 20px 0;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 </style>

@@ -75,6 +75,35 @@ export const useWorldcupStore = defineStore("worldcup", () => {
       console.log(error);
     });
   }
+  const user = ref({});
+  const getPoint = ()=>{
+    axios
+    .get(REST_WORLDCUP_API+'/point')
+    .then((response)=>{
+      Swal.fire({
+        title: `${response.data} 랜덤 포인트가 지급되었습니다!`,
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background: "#fff url(/images/trees.png)",
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("/images/nyan-cat.gif")
+          left top
+          no-repeat
+        `
+      });
+    }).then(()=>{
+
+      axios.get("http://localhost:8080/api-user/user/session/update")
+      .then((response)=>{
+        sessionStorage.setItem("user", JSON.stringify(response.data));
+      })
+
+    })
+
+  }
+
 
   return {
     worldcup,
@@ -85,5 +114,6 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     rankUpWorldcup,
     elementsRank,
     getElementsRank,
+    getPoint
   };
 });
