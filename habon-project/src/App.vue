@@ -1,11 +1,14 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import TheHeaderNav from '@/components/common/TheHeaderNav.vue'
+
 </script>
 
 <template>
   <div id="app">
     <TheHeaderNav />
+   
+    
   </div>
 </template>
 

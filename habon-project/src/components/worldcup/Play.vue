@@ -53,6 +53,8 @@
       <div>리스트가 비어 있습니다.</div>
     </div>
   </div>
+
+  <div>싸피!~!!</div>
 </template>
 
 <script setup>
