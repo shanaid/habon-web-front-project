@@ -9,7 +9,7 @@
         삭제
       </button>
       <button class="like-button" @click="toggleLike" v-if="loginUser">
-        {{ isLiked ? '좋아요 취소' : '좋아요' }} ({{ store.board.likeCount }})
+        {{ isLiked ? "🤍" : "❤️" }}
       </button>
     </div>
     <div class="board-content">
@@ -66,7 +66,7 @@ const toggleLike = async () => {
 
   isLiked.value = !isLiked.value; // 좋아요 상태를 즉시 반영
   await likeStore.likeclick('board', route.params.id);
-  await store.getBoard(route.params.id); // 게시글 데이터를 다시 불러와 좋아요 수 업데이트
+  // await store.getBoard(route.params.id); // 게시글 데이터를 다시 불러와 좋아요 수 업데이트
 };
 
 const deleteBoard = async () => {
