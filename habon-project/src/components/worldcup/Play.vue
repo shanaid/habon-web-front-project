@@ -134,6 +134,7 @@ const randomPoint = () => {
   pointClaimed.value = true;
 };
 
+
 onMounted(async () => {
   const worldcupId = route.params.worldcupId;
   store.getWorldcupSubCategory(route.params.id);
@@ -144,6 +145,7 @@ onMounted(async () => {
   await store.playWorldcup(worldcupId);
   initializeRound();
 });
+
 
 const hint = () => {
   isHintLoading.value = true;

@@ -15,6 +15,8 @@ import BoardUpdate from "@/components/board/BoardUpdate.vue";
 import RankView from "@/components/worldcup/RankView.vue";
 import ReportDetail from "@/components/report/ReportDetail.vue";
 import ReportView from "@/views/ReportView.vue";
+import AccRankView from "@/components/worldcup/AccRankView.vue"
+import PostRankView from "@/components/worldcup/PostRankView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,7 +76,17 @@ const router = createRouter({
           path:"result/:id",
           name:"Ranking",
           component: RankView
-        }
+        },
+        {
+          path:"accresult/:id",
+          name:"AccRanking",
+          component: AccRankView
+        },
+        {
+          path:"postresult/:id",
+          name:"PostRanking",
+          component: PostRankView
+        },
       ]
     },
     {
