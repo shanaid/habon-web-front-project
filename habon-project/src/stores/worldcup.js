@@ -69,6 +69,20 @@ export const useWorldcupStore = defineStore("worldcup", () => {
 
   }
 
+
+
+  const getElementsAllRank = function(worldcupId){
+    axios
+    .get(`${REST_WORLDCUP_API}/accresult/${worldcupId}`)
+    .then((response)=>{
+      elementsRank.value = response.data;
+    })
+    .catch((error) => {
+      alert(error.response.data);
+      console.log(error);
+    });
+  }
+
   const getElementsRank = function(worldcupId){
     axios
     .get(`${REST_WORLDCUP_API}/result/${worldcupId}`)
@@ -80,6 +94,9 @@ export const useWorldcupStore = defineStore("worldcup", () => {
       console.log(error);
     });
   }
+
+
+
   const user = ref({});
   const getPoint = ()=>{
     point.value=false;
@@ -110,6 +127,23 @@ export const useWorldcupStore = defineStore("worldcup", () => {
 
   }
 
+  const postRank =ref([]);
+  const getPostRankList = function(worldcupId){
+    axios
+    .get(`${REST_WORLDCUP_API}/postresult/${worldcupId}`)
+    .then((response)=>{
+      postRank.value = response.data;
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ERROR',
+        text: '아직 기록이 없습니다.',
+      });
+    });
+  }
+
+
 
   return {
     worldcup,
@@ -118,9 +152,12 @@ export const useWorldcupStore = defineStore("worldcup", () => {
     playWorldcupList,
     playWorldcup,
     rankUpWorldcup,
+    getElementsAllRank,
     elementsRank,
     getElementsRank,
     getPoint,
-    point
+    point,
+    postRank,
+    getPostRankList
   };
 });

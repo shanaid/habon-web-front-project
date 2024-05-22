@@ -144,16 +144,16 @@ const randomPoint = () => {
   pointClaimed.value = true; // 포인트 버튼을 클릭한 것으로 표시
 };
 
-onMounted(async () => {
-  const worldcupId = route.params.worldcupId;
-  if (!worldcupId) {
-    return;
-  }
+// onMounted(async () => {
+//   const worldcupId = route.params.worldcupId;
+//   if (!worldcupId) {
+//     return;
+//   }
   
-  // 초기 데이터 로딩
-  await store.playWorldcup(worldcupId);
-  initializeRound();
-});
+//   // 초기 데이터 로딩
+//   await store.playWorldcup(worldcupId);
+//   initializeRound();
+// });
 
 const promptmsg = ref('');
 // PromiseResult
