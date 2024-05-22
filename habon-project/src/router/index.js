@@ -13,6 +13,8 @@ import BoardDetail from "@/components/board/BoardDetail.vue";
 import BoardCreate from "@/components/board/BoardCreate.vue";
 import BoardUpdate from "@/components/board/BoardUpdate.vue";
 import RankView from "@/components/worldcup/RankView.vue";
+import ReportDetail from "@/components/report/ReportDetail.vue";
+import ReportView from "@/views/ReportView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,7 +103,18 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/report",
+      name: "ReportView",
+      component: ReportView
+    },
+    {
+      path: "/report/:id",
+      name: "ReportDetail",
+      component: ReportDetail
+    }
   ],
+  
 });
 
 export default router;

@@ -11,6 +11,9 @@
       <button class="like-button" @click="toggleLike" v-if="loginUser">
         {{ isLiked ? "❤️" : "🤍" }}
       </button>
+      <button class="report-button" @click="reportBoard" v-if="loginUser">
+        신고
+      </button>
     </div>
     <div class="board-content">
       <div class="board-header">
@@ -46,13 +49,17 @@ import { useRoute } from 'vue-router';
 import { useBoardStore } from '@/stores/board';
 import { useLikeStore } from '@/stores/like';
 import { useUserStore } from '@/stores/user';
+import { useReportStore } from '@/stores/report';
 import { onMounted, ref } from 'vue';
+import Swal from 'sweetalert2';
 import CommentView from '../comment-reply/CommentView.vue';
 
 const route = useRoute();
 const store = useBoardStore();
 const likeStore = useLikeStore();
 const userStore = useUserStore();
+const reportStore = useReportStore();
+const reportContent = ref('');
 
 const loginUser = JSON.parse(sessionStorage.getItem('user'));
 const isLiked = ref(false);
@@ -71,13 +78,28 @@ const toggleLike = async () => {
 
   isLiked.value = !isLiked.value; // 좋아요 상태를 즉시 반영
   await likeStore.likeclick('board', route.params.id);
-  // await store.getBoard(route.params.id); // 게시글 데이터를 다시 불러와 좋아요 수 업데이트
 };
 
 const deleteBoard = async () => {
   await store.deleteBoard(route.params.id);
-  // 게시글 삭제 후 다른 페이지로 이동하도록 설정
-  // 예: router.push('/board');
+};
+
+const reportBoard = async () => {
+  const { value: reportContentValue } = await Swal.fire({
+    title: '신고 내용을 입력하세요.',
+    input: 'textarea',
+    inputPlaceholder: '신고 내용을 입력...',
+    showCancelButton: true,
+  });
+
+  if (reportContentValue) {
+    const reportData = {
+      contentContent: store.board.content,
+      reportContent: reportContentValue,
+    };
+    await reportStore.postReport('board', route.params.id, reportData);
+    Swal.fire('신고가 접수되었습니다.');
+  }
 };
 
 onMounted(async () => {
@@ -112,7 +134,8 @@ h1 {
 
 .update-button,
 .delete-button,
-.like-button {
+.like-button,
+.report-button {
   padding: 10px 20px;
   margin-left: 10px;
   border: none;
@@ -149,6 +172,16 @@ h1 {
 
 .like-button:hover {
   background-color: #e68900;
+  transform: scale(1.05);
+}
+
+.report-button {
+  background-color: #800080; /* Purple color */
+  color: white;
+}
+
+.report-button:hover {
+  background-color: #6a006a;
   transform: scale(1.05);
 }
 

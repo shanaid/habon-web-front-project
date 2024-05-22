@@ -12,8 +12,8 @@ export const OpenApiUtil = {
         
         const completion = await openai.chat.completions.create({
           messages: [{ role: "system", content: msg }],
-          model: "gpt-4o",
-          // model: "gpt-3.5-turbo",
+          // model: "gpt-4o",
+          model: "gpt-3.5-turbo",
 
         });
     

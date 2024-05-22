@@ -24,6 +24,7 @@
             <button class="like-button" @click="toggleCommentLike(comment.id)">
               {{ isCommentLiked[comment.id] ? "❤️" : "🤍" }}
             </button>
+            <button class="report-button" v-if="isLoggedIn" @click="reportComment(comment.id, comment.content)">신고</button>
           </div>
         </div>
         <div class="reply-toggle-container">
@@ -46,14 +47,18 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useCommentStore } from '@/stores/comments';
 import { useLikeStore } from '@/stores/like';
+import { useReportStore } from '@/stores/report';
 import { useRoute } from 'vue-router';
 import ReplyView from './ReplyView.vue';
+import Swal from 'sweetalert2';
 
 const route = useRoute();
 const commentStore = useCommentStore();
 const likeStore = useLikeStore();
 const user = ref(JSON.parse(sessionStorage.getItem('user')));
 const isLoggedIn = ref(user.value !== null);
+const reportStore = useReportStore();
+const reportContent = ref('');
 
 const newCommentContent = ref('');
 const editCommentId = ref(null);
@@ -129,6 +134,24 @@ const toggleCommentLike = async (commentId) => {
   await likeStore.likeclick('comment', commentId);
   await commentStore.getComments(route.params.id); // 댓글 데이터를 다시 불러와 좋아요 수 업데이트
   isCommentLiked[commentId] = likeStore.islike;
+};
+
+const reportComment = async (commentId, commentContent) => {
+  const { value: reportContentValue } = await Swal.fire({
+    title: '신고 내용을 입력하세요.',
+    input: 'textarea',
+    inputPlaceholder: '신고 내용을 입력...',
+    showCancelButton: true,
+  });
+
+  if (reportContentValue) {
+    const reportData = {
+      contentContent: commentContent,
+      reportContent: reportContentValue,
+    };
+    await reportStore.postReport('comment', commentId, reportData);
+    Swal.fire('신고가 접수되었습니다.');
+  }
 };
 
 onMounted(async () => {
@@ -229,7 +252,8 @@ h2 {
 .add-comment-button,
 .add-reply-button,
 .toggle-reply-button,
-.like-button {
+.like-button,
+.report-button {
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -257,15 +281,13 @@ h2 {
 }
 
 .cancel-button,
-.delete-button,
-.toggle-reply-button {
+.delete-button {
   background-color: #f44336;
   color: white;
 }
 
 .cancel-button:hover,
-.delete-button:hover,
-.toggle-reply-button:hover {
+.delete-button:hover {
   background-color: #e53935;
   transform: scale(1.05);
 }
@@ -276,5 +298,15 @@ h2 {
 
 .toggle-reply-button:hover {
   background-color: #ff1493; /* 더 진한 핑크색으로 변경 */
+}
+
+.report-button {
+  background-color: #800080; /* 보라색 */
+  color: white;
+}
+
+.report-button:hover {
+  background-color: #6a006a; /* 더 진한 보라색 */
+  transform: scale(1.05);
 }
 </style>
