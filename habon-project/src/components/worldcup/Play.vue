@@ -1,6 +1,7 @@
 <template>
   <div class="all">
     <div v-if="store.playWorldcupList && store.playWorldcupList.length > 1">
+      <h1>주제 : {{ store.worldcupSubCategory }}</h1>
       <h1>{{ currentRound }} <span v-if="currentRound !== '결승'">강 - {{ currentGame }}/{{ currentRound / 2 }}번째 게임</span></h1>
 
       <div class="choices-container">
@@ -23,29 +24,23 @@
         </div>
       </div>
       <div>
-        <button v-on:click="hint">힌트</button>
-        <p ></p>
-        {{ promptmsg }}
-
+        <button v-on:click="hint" :disabled="isHintLoading">힌트</button>
+        <p class="prompt-msg" v-if="isHintLoading">힌트 작성중입니다. 잠시만 기다려주세요!</p>
+        <p class="prompt-msg" v-else>{{ promptmsg }}</p>
       </div>
     </div>
     <div v-else-if="store.playWorldcupList.length === 1">
-
       <div v-if="store.point">
-       <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
+        <button :disabled="pointClaimed" @click="randomPoint" :class="{ disabled: pointClaimed }">포인트 얻기</button>
       </div>
-      
       <div class="winner-container">
-      
-
         <div class="winner">
           우승: {{ store.playWorldcupList[0].name }}
         </div>
-
+        <img :src="store.playWorldcupList[0].img" alt="">
         <RouterLink :to="'/noticeBoard/' + route.params.id">
           <div class="board-box">해당 월드컵 게시판으로 ! </div>
         </RouterLink>
-
       </div>
       <RankView />
     </div>
@@ -53,8 +48,6 @@
       <div>리스트가 비어 있습니다.</div>
     </div>
   </div>
-
-
 </template>
 
 <script setup>
@@ -67,73 +60,70 @@ import RankView from './RankView.vue';
 const store = useWorldcupStore();
 const route = useRoute();
 
-const updatelist = ref([]); // 업데이트 할 리스트를 담는 배열, 랭크 올릴 리스트
-
-const currentRound = ref(route.params.cnt); // 몇강인지 체크 -> 시작할때 정한 값을 가져온다.
-
-const currentGame = ref(1); // 현재 N번째 강에서 몇번째 게임인지 체크
-
-const totalGamesInCurrentRound = ref(0); //토탈 게임 라운드
-
-const pointClaimed = ref(false); // 포인트가 뽑혔는지 여부
+const updatelist = ref([]);
+const currentRound = ref(route.params.cnt);
+const currentGame = ref(1);
+const totalGamesInCurrentRound = ref(0);
+const pointClaimed = ref(false);
+const promptmsg = ref('');
+const isHintLoading = ref(false);
 
 const initializeRound = () => {
-  const length = store.playWorldcupList.length; // 현재 월드컵 수를 구해서
+  const length = store.playWorldcupList.length;
 
-  if (length > 8) { // 8개 이상이면 (9~16이라면)
-    currentRound.value = '16'; //16강으로 표기
-    totalGamesInCurrentRound.value = 8; //토탈 밸류는 8
-  } else if (length > 4) { //4강 이상이면
-    currentRound.value = '8'; // 8강으로 표기
+  if (length > 8) {
+    currentRound.value = '16';
+    totalGamesInCurrentRound.value = 8;
+  } else if (length > 4) {
+    currentRound.value = '8';
     totalGamesInCurrentRound.value = 4;
-  } else if (length > 2) { //2강 이상이면
-    currentRound.value = '4'; //4강으로 표기
+  } else if (length > 2) {
+    currentRound.value = '4';
     totalGamesInCurrentRound.value = 2;
   } else {
-    currentRound.value = '결승'; //아니면 결승
+    currentRound.value = '결승';
     totalGamesInCurrentRound.value = 1;
   }
 
-  if(currentRound.value != route.params.cnt){ //만약 맨 처음을 제외하고
-    currentGame.value = 1;} //현재 게임수 초기화
+  if (currentRound.value != route.params.cnt) {
+    currentGame.value = 1;
+  }
 };
 
-const updateGame = () => { //뭘 누를 때 마다
-  currentGame.value += 1; //현재 게임수 늘리고
+const updateGame = () => {
+  currentGame.value += 1;
 };
 
-const chooseFirst = () => { //첫번 째 요소 선택시
+const chooseFirst = () => {
   promptmsg.value = '';
 
-  if (store.playWorldcupList.length > 1) { //만약 게임을 즐길 리스트 사이즈가 1보다 크담면
-    updatelist.value.push(store.playWorldcupList[0]); //헤당 요소를 update 요소에 넣고
-    store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
+  if (store.playWorldcupList.length > 1) {
+    updatelist.value.push(store.playWorldcupList[0]);
+    store.playWorldcupList.splice(0, 2);
 
-    if (store.playWorldcupList.length === 0) { //그러다 그 판이 끝나면
-      store.rankUpWorldcup(route.params.id, updatelist.value); //랭크 업데이트를 해주고
-      store.playWorldcupList = [...updatelist.value]; // update에 있는 모든 요소를 play에 넣어주고
-      updatelist.value = []; // 업데이트는 비워준다
-      initializeRound(); //
+    if (store.playWorldcupList.length === 0) {
+      store.rankUpWorldcup(route.params.id, updatelist.value);
+      store.playWorldcupList = [...updatelist.value];
+      updatelist.value = [];
+      initializeRound();
     } else {
-      //안끝났다면 업데이트로 간다.
       updateGame();
     }
   }
 };
 
-const chooseSecond = () => { // 똑같이 행동 
+const chooseSecond = () => {
   promptmsg.value = '';
   if (store.playWorldcupList.length > 1) {
     updatelist.value.push(store.playWorldcupList[1]);
-    store.playWorldcupList.splice(0, 2); // 첫 번째 및 두 번째 항목 제거
+    store.playWorldcupList.splice(0, 2);
 
     if (store.playWorldcupList.length === 0) {
-      store.rankUpWorldcup(route.params.id, updatelist.value); //랭크 업데이트를 해주고
-      store.playWorldcupList = [...updatelist.value]; // update에 있는 모든 요소를 play에 넣어주고
-      updatelist.value = []; // 업데이트는 비워준다
-      initializeRound(); //
+      store.rankUpWorldcup(route.params.id, updatelist.value);
+      store.playWorldcupList = [...updatelist.value];
+      updatelist.value = [];
+      initializeRound();
     } else {
-      //안끝났다면 업데이트로 간다.
       updateGame();
     }
   }
@@ -141,40 +131,29 @@ const chooseSecond = () => { // 똑같이 행동
 
 const randomPoint = () => {
   store.getPoint();
-  pointClaimed.value = true; // 포인트 버튼을 클릭한 것으로 표시
+  pointClaimed.value = true;
 };
 
-// onMounted(async () => {
-//   const worldcupId = route.params.worldcupId;
-//   if (!worldcupId) {
-//     return;
-//   }
-  
-//   // 초기 데이터 로딩
-//   await store.playWorldcup(worldcupId);
-//   initializeRound();
-// });
 
-const promptmsg = ref('');
-// PromiseResult
-const hint = ()=>{
+onMounted(async () => {
+  const worldcupId = route.params.worldcupId;
+  store.getWorldcupSubCategory(route.params.id);
+  if (!worldcupId) {
+    return;
+  }
 
-  promptmsg.value = OpenApiUtil.prompt(store.playWorldcupList[0].name+'와 '+store.playWorldcupList[1].name+'에 대해서 알려줘! ').then((res)=>{
-   
+  await store.playWorldcup(worldcupId);
+  initializeRound();
+});
+
+
+const hint = () => {
+  isHintLoading.value = true;
+  OpenApiUtil.prompt(`${store.playWorldcupList[0].name}와 ${store.playWorldcupList[1].name}에 대해서 알려줘!`).then((res) => {
     promptmsg.value = res;
-    
-  })
-  
-  console.log(promptmsg.value)
-
-  console.log(promptmsg.value.then((res)=>{
-    console.log(res)
-  }));
-
-}
-
-
-
+    isHintLoading.value = false;
+  });
+};
 </script>
 
 <style scoped>
@@ -212,7 +191,7 @@ h1 {
 }
 
 .choice * {
-  pointer-events: none; /* 하위 요소가 클릭 이벤트를 차단하도록 설정 */
+  pointer-events: none;
 }
 
 .sec {
@@ -302,5 +281,11 @@ button:hover {
 button.disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.prompt-msg {
+  font-size: 1.2em;
+  color: #555;
+  margin-top: 10px;
 }
 </style>
