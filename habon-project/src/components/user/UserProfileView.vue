@@ -10,7 +10,12 @@
         <div class="point-group">
           <label for="point">포인트</label>
           <p id="point">{{ user.point }}</p>
-          <button @click="randomizePoints" class="random-btn">이미지 변경</button>
+
+          <!-- <a href="#" data-text="button">이미지 변경</a> -->
+          <button class="btn-hover color-8" @click="randomizePoints">이미지 변경</button>
+          <!-- <button @click="randomizePoints" class="random-btn">이미지 변경</button> -->
+        
+        
         </div>
       </div>
       <div class="form-group">
@@ -45,8 +50,18 @@
       </div>
       
     </div>
-    <button @click="promptPassword">내 정보 수정</button>
-  </div>
+    <!-- <button @click="promptPassword">내 정보 수정</button> -->
+
+
+
+      <div class="button-container-2">
+        <span class="mas">내 정보 수정</span>
+        <button @click="promptPassword" type="button" name="Hover">내 정보 수정</button>
+      </div>
+      
+      
+    </div>
+      
 </template>
 
 <script setup>
@@ -114,6 +129,48 @@ const promptPassword = () => {
 </script>
 
 <style scoped>
+
+.buttons {
+    margin: 10%;
+    text-align: center;
+}
+
+.btn-hover {
+    width: 200px;
+    font-size: 25px;
+    font-weight: 600;
+    color: #fff;
+    font-family: 'BMEuljiro10yearslater';
+    margin: 20px;
+    height: 55px;
+    text-align:center;
+    border: none;
+    background-size: 300% 100%;
+
+    border-radius: 50px;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover:hover {
+    background-position: 100% 0;
+    moz-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+    outline: none;
+}
+
+.btn-hover.color-8 {
+    background-image: linear-gradient(to right, #29323c, #485563, #2b5876, #4e4376);
+    box-shadow: 0 4px 15px 0 rgba(45, 54, 65, 0.75);
+}
+
 .box {
   width: 100%;
   max-width: 800px;
@@ -189,7 +246,7 @@ h3 {
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+
   font-size: 14px;
   transition: background-color 0.3s ease;
 }
@@ -198,6 +255,7 @@ h3 {
   background-color: #218838;
 }
 
+/* 
 button {
   padding: 15px;
   width: 100%;
@@ -210,15 +268,110 @@ button {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
-}
+} */
 
-button:hover {
+/* button:hover {
   background-color: #0056b3;
-}
+} */
 
 .divider {
   border: none;
   border-top: 1px solid #ccc;
   margin: 20px 0;
 }
+
+
+
+.button-container-2 {
+  position: relative;
+  width: 100%;
+  height: 35px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  border: 1px solid #000;
+  font-family: 'BMEuljiro10yearslater';
+  font-weight: 300;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}
+.button-container-2 button {
+  width: 101%;
+  height: 100%;
+  font-family: 'BMEuljiro10yearslater';
+
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  background: #000;
+  -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  -webkit-mask-size: 3000% 100%;
+  mask-size: 3000% 100%;
+  border: none;
+  color: #fff;
+  -webkit-animation: ani2 0.7s steps(29) forwards;
+  animation: ani2 0.7s steps(29) forwards;
+}
+.button-container-2 button:hover {
+  -webkit-animation: ani 0.7s steps(29) forwards;
+  animation: ani 0.7s steps(29) forwards;
+}
+.mas {
+  position: absolute;
+  color: #000;
+  text-align: center;
+  width: 101%;
+  font-weight: 300;
+  position: absolute;
+  font-size: 20px;
+  margin-top: 3.5px;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+@-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+
 </style>
