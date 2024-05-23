@@ -3,9 +3,10 @@
   <div class="container">
     <h1>게시판</h1>
     <p>여러분의 토론주제를 펼쳐보세요!</p>
-    <div class="button-container">
+    <div class="button-container-2">
       <RouterLink :to="'/board/create/' + route.params.id">
-        <button class="create-button" v-if="loginUser">글쓰기</button>
+        <span class="mas">글쓰기</span>
+        <button type="button" name="Hover">글쓰기</button>
       </RouterLink>
     </div>
     <hr>
@@ -95,6 +96,106 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
+.button-container-2 {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: 0;
+  margin-top: 7vh;
+  overflow: hidden;
+  border: 1px solid #000;
+  font-family: 'BMEuljiro10yearslater';
+  font-weight: 300;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  font-size: 17px;
+}
+.button-container-2 button {
+  width: 101%;
+  height: 100%;
+  font-family: 'BMEuljiro10yearslater';
+  font-weight: 300;
+  font-size: 17px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  background: #000;
+  -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  -webkit-mask-size: 3000% 100%;
+  mask-size: 3000% 100%;
+  border: none;
+  color: #fff;
+
+  -webkit-animation: ani2 0.7s steps(29) forwards;
+  animation: ani2 0.7s steps(29) forwards;
+}
+.button-container-2 button:hover {
+  -webkit-animation: ani 0.7s steps(29) forwards;
+  animation: ani 0.7s steps(29) forwards;
+}
+
+.mas {
+  position: absolute;
+  color: #000;
+  text-align: center;
+  width: 101%;
+
+  font-weight: 300;
+  position: absolute;
+  font-size: 17px;
+  margin-top: 17px;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+@-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+a {
+  color: #00ff95;
+}
+
+
 .background {
   background-image: url('src/assets/img/back5.png');
   background-position: center;
@@ -104,6 +205,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
 }
+
 
 .container {
   padding: 20px;
@@ -129,7 +231,7 @@ p {
   text-align: center;
 }
 
-.button-container {
+.button-container-2 {
   text-align: right;
   margin-bottom: 20px;
 }
@@ -164,7 +266,8 @@ thead {
   color: white;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #dee2e6;
   padding: 12px;
   text-align: center;
@@ -185,7 +288,7 @@ tr:hover {
 }
 
 .board {
-  color: #007bff;
+  color: #cc305f;
   text-decoration: none;
   transition: color 0.3s;
 }
@@ -217,6 +320,6 @@ tr:hover {
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #0056b3;
+  background-color: #800026;
 }
 </style>
