@@ -1,46 +1,48 @@
 <template>
-  <div class="container">
-    <h1>게시판 상세</h1>
-    <div class="button-container">
-      <RouterLink :to="'/board/update/' + store.board.id">
-        <button class="update-button" v-if="loginUser && store.board.userId === loginUser.id">수정</button>
-      </RouterLink>
-      <button class="delete-button" @click="deleteBoard" v-if="loginUser && store.board.userId === loginUser.id">
-        삭제
-      </button>
-      <button class="like-button" @click="toggleLike" v-if="loginUser">
-        {{ isLiked ? "❤️" : "🤍" }}
-      </button>
-      <button class="report-button" @click="reportBoard" v-if="loginUser">
-        신고
-      </button>
-    </div>
-    <div class="board-content">
-      <div class="board-header">
-        <div class="board-item-title">
-          <h2>{{ store.board.title }}</h2>
+  <div class="background">
+    <div class="container">
+      <h1>게시판 상세</h1>
+      <div class="button-container">
+        <RouterLink :to="'/board/update/' + store.board.id">
+          <button class="update-button" v-if="loginUser && store.board.userId === loginUser.id">수정</button>
+        </RouterLink>
+        <button class="delete-button" @click="deleteBoard" v-if="loginUser && store.board.userId === loginUser.id">
+          삭제
+        </button>
+        <button class="like-button" @click="toggleLike" v-if="loginUser">
+          {{ isLiked ? "❤️" : "🤍" }}
+        </button>
+        <button class="report-button" @click="reportBoard" v-if="loginUser">
+          신고
+        </button>
+      </div>
+      <div class="board-content">
+        <div class="board-header">
+          <div class="board-item-title">
+            <h2>{{ store.board.title }}</h2>
+          </div>
+          <div class="board-meta">
+            <div class="board-item-writer">
+              <span>작성자: {{ store.board.writer }}</span>
+              <span>
+                <img :src="userStore.userImg" alt="유저 이미지" class="user-img">
+              </span>
+            </div>
+            <div class="board-item-regist-date">
+              <span>작성일: {{ store.board.registDate }}</span>
+            </div>
+            <div class="board-item-view-cnt">
+              <span>조회수: {{ store.board.viewCount }}</span>
+            </div>
+          </div>
         </div>
-        <div class="board-meta">
-          <div class="board-item-writer">
-            <span>작성자: {{ store.board.writer }}</span>
-            <span>
-              <img :src="userStore.userImg" alt="유저 이미지" class="user-img">
-            </span>
-          </div>
-          <div class="board-item-regist-date">
-            <span>작성일: {{ store.board.registDate }}</span>
-          </div>
-          <div class="board-item-view-cnt">
-            <span>조회수: {{ store.board.viewCount }}</span>
-          </div>
+        <div class="board-item-content">
+          <p>{{ store.board.content }}</p>
         </div>
       </div>
-      <div class="board-item-content">
-        <p>{{ store.board.content }}</p>
-      </div>
+      <hr />
+      <CommentView />
     </div>
-    <hr />
-    <CommentView />
   </div>
 </template>
 
@@ -110,6 +112,15 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.background {
+  background-image: url('src/assets/img/back5.png');
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
   padding: 20px;
   max-width: 800px;
@@ -136,53 +147,14 @@ h1 {
 .delete-button,
 .like-button,
 .report-button {
+  font-family: 'BMEuljiro10yearslater';
+  background-color: #333;
+  color: white;
   padding: 10px 20px;
   margin-left: 10px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.update-button {
-  background-color: #4caf50;
-  color: white;
-}
-
-.update-button:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-
-.delete-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.delete-button:hover {
-  background-color: #e53935;
-  transform: scale(1.05);
-}
-
-.like-button {
-  background-color: #ff9800;
-  color: white;
-}
-
-.like-button:hover {
-  background-color: #e68900;
-  transform: scale(1.05);
-}
-
-.report-button {
-  background-color: #800080; /* Purple color */
-  color: white;
-}
-
-.report-button:hover {
-  background-color: #6a006a;
-  transform: scale(1.05);
 }
 
 .board-content {

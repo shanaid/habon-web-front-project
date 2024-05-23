@@ -3,7 +3,7 @@
     <nav class="nav">
       <div class="total">
         <div class="left">
-          <RouterLink to="/" class="home">Home</RouterLink>
+          <RouterLink to="/" class="home"><img src="/src/assets/img/logo.png" alt="logo" class="logo" ></RouterLink>
         </div>
         <div class="center">
           <RouterLink to="/worldcup" class="worldCup">월드컵</RouterLink>
@@ -29,7 +29,6 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user';
 
@@ -95,7 +94,13 @@ const user = ref(JSON.parse(sessionStorage.getItem('user')))
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.welcome:hover
+.logo {
+  width: 80px;
+  height: 80px;
+}
+
+
+.welcome:hover,
 .home:hover,
 .worldCup:hover,
 .board:hover,

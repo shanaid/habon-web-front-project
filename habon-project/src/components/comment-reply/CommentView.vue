@@ -254,59 +254,12 @@ h2 {
 .toggle-reply-button,
 .like-button,
 .report-button {
+  font-family: 'BMEuljiro10yearslater';
+  background-color: #333;
+  color: white;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
   font-size: 0.9em;
-}
-
-.add-comment-button,
-.add-reply-button,
-.save-button,
-.edit-button,
-.like-button {
-  background-color: #4caf50;
-  color: white;
-}
-
-.add-comment-button:hover,
-.add-reply-button:hover,
-.save-button:hover,
-.edit-button:hover,
-.like-button:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-
-.cancel-button,
-.delete-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.cancel-button:hover,
-.delete-button:hover {
-  background-color: #e53935;
-  transform: scale(1.05);
-}
-
-.toggle-reply-button {
-  background-color: #ff69b4; /* 핑크색으로 변경 */
-}
-
-.toggle-reply-button:hover {
-  background-color: #ff1493; /* 더 진한 핑크색으로 변경 */
-}
-
-.report-button {
-  background-color: #800080; /* 보라색 */
-  color: white;
-}
-
-.report-button:hover {
-  background-color: #6a006a; /* 더 진한 보라색 */
-  transform: scale(1.05);
 }
 </style>

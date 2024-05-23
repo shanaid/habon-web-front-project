@@ -24,7 +24,7 @@
         </div>
       </div>
       <div>
-        <button v-on:click="hint" :disabled="isHintLoading">힌트</button>
+        <button v-on:click="hint" :disabled="isHintLoading">물어보기!</button>
         <p class="prompt-msg" v-if="isHintLoading">힌트 작성중입니다. 잠시만 기다려주세요!</p>
         <p class="prompt-msg" v-else>{{ promptmsg }}</p>
       </div>
@@ -265,7 +265,7 @@ button {
   padding: 10px 20px;
   font-size: 1.2em;
   color: #000000;
-  background-color: #9dff00;
+  background-color: #b3137d;
   border: none;
   border-radius: 5px;
   cursor: url("../public/hyojason.png"), auto;

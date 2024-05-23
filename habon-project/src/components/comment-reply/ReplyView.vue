@@ -179,49 +179,13 @@ onMounted(async () => {
 .delete-button,
 .add-reply-button,
 .toggle-reply-button {
+  font-family: 'BMEuljiro10yearslater';
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  background-color: #333;
+  color: white;
   transition: background-color 0.3s ease, transform 0.3s ease;
   font-size: 0.9em;
-}
-
-.add-reply-button,
-.save-button,
-.edit-button {
-  background-color: #4caf50;
-  color: white;
-}
-
-.add-reply-button:hover,
-.save-button:hover,
-.edit-button:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-
-.cancel-button,
-.delete-button,
-.toggle-reply-button {
-  background-color: #f44336;
-  color: white;
-}
-
-.cancel-button:hover,
-.delete-button:hover,
-.toggle-reply-button:hover {
-  background-color: #e53935;
-  transform: scale(1.05);
-}
-
-.toggle-reply-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.toggle-reply-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
 }
 </style>

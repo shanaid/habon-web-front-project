@@ -44,7 +44,6 @@ onMounted(() => {
 }
 
 .background {
-  
   background-image: url('src/assets/img/back1.jpg');
   background-position: center;
   background-size: cover;
