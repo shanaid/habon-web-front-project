@@ -51,7 +51,18 @@
             </div>
           </div>
   
-          <button type="submit">회원가입</button>
+          <button type="submit">
+
+        
+                <div class="button-container-2">
+                    <span class="mas">회원가입</span>
+                    <button type="button" name="Hover">회원가입</button>
+                </div>
+              
+            </button>
+
+
+
         </form>
       </div>
     </div>
@@ -86,6 +97,7 @@
   </script>
   
   <style scoped>
+  
   .box {
     width: 100%;
     max-width: 600px;
@@ -95,6 +107,10 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
+  }
+
+  button{
+    border: none;
   }
   
   h3 {
@@ -139,21 +155,11 @@
     color: #aaa;
   }
   
-  button[type="submit"] {
-    padding: 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
+ 
   
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
-  
+
+
+
   .essential, .optional {
     margin-bottom: 30px;
   }
@@ -163,5 +169,99 @@
     margin-bottom: 10px;
     color: #333;
   }
+
+.mas {
+  position: absolute;
+  color: #000;
+  text-align: center;
+  width: 101%;
+  font-weight: 300;
+  position: absolute;
+  font-size: 20px;
+  margin-top: 3.5px;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+@-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+@-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+.button-container-2 {
+  position: relative;
+  width: 100%;
+  height: 35px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  border: 1px solid #000;
+  font-family: 'BMEuljiro10yearslater';
+  font-weight: 300;
+  transition: 0.5s;
+  letter-spacing: 1px;
+  border-radius: 8px;
+}
+.button-container-2 button {
+  width: 101%;
+  height: 100%;
+  font-family: 'BMEuljiro10yearslater';
+
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  background: #000;
+  -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+  -webkit-mask-size: 3000% 100%;
+  mask-size: 3000% 100%;
+  border: none;
+  color: #fff;
+  -webkit-animation: ani2 0.7s steps(29) forwards;
+  animation: ani2 0.7s steps(29) forwards;
+}
+.button-container-2 button:hover {
+  -webkit-animation: ani 0.7s steps(29) forwards;
+  animation: ani 0.7s steps(29) forwards;
+}
+
+
   </style>
   
