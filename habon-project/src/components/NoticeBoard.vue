@@ -1,4 +1,5 @@
 <template>
+  <div class="background">
   <div class="container">
     <h1>게시판</h1>
     <p>여러분의 토론주제를 펼쳐보세요!</p>
@@ -45,6 +46,7 @@
       <button @click="next10Pages" :disabled="currentPage * itemsPerPage >= boardList.length">&gt;&gt;</button>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -93,6 +95,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.background {
+  background-image: url('src/assets/img/back5.png');
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
   padding: 20px;
   max-width: 900px;
